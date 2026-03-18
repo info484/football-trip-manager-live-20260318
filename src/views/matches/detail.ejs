@@ -1,0 +1,80 @@
+<%- include('../partials/header') %>
+
+<section class="page-header page-header-with-action">
+  <div>
+    <h1><%= match.opponent %></h1>
+    <p><%= new Date(match.match_datetime).toLocaleString('nl-BE') %> | <%= match.location %> | <strong><%= match.points_value %> punten</strong></p>
+  </div>
+  <a class="btn" href="/matches/<%= match.id %>/registrations/new">Inschrijving toevoegen</a>
+</section>
+
+<% if (message) { %>
+  <div class="alert <%= messageType === 'error' ? 'alert-error' : 'alert-success' %>"><%= message %></div>
+<% } %>
+
+<section class="stats-grid">
+  <article class="card stat-card">
+    <h2><%= summary.present_count %></h2>
+    <p>Aanwezig</p>
+  </article>
+  <article class="card stat-card">
+    <h2><%= summary.absent_count %></h2>
+    <p>Afwezig</p>
+  </article>
+  <article class="card stat-card">
+    <h2>EUR <%= Number(summary.total_amount).toFixed(2) %></h2>
+    <p>Totaal bedrag</p>
+  </article>
+  <article class="card stat-card">
+    <h2>EUR <%= Number(summary.unpaid_amount).toFixed(2) %></h2>
+    <p>Openstaand</p>
+  </article>
+</section>
+
+<section class="card">
+  <h2>Inschrijvingen</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Lid</th>
+          <th>Aanwezig</th>
+          <th>Plaats</th>
+          <th>Pakket</th>
+          <th>Betaling</th>
+          <th>Status</th>
+          <th>Bedrag</th>
+          <th>Acties</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (registrations.length === 0) { %>
+          <tr>
+            <td colspan="8">Nog geen inschrijvingen.</td>
+          </tr>
+        <% } %>
+        <% registrations.forEach((registration) => { %>
+          <tr>
+            <td><%= registration.first_name %> <%= registration.last_name %></td>
+            <td><%= registration.attendance %></td>
+            <td><%= registration.seat_type %></td>
+            <td><%= registration.package_type %></td>
+            <td><%= registration.payment_method %></td>
+            <td><%= registration.payment_status %></td>
+            <td>EUR <%= Number(registration.amount).toFixed(2) %></td>
+            <td>
+              <div class="actions">
+                <a class="btn btn-small" href="/matches/<%= match.id %>/registrations/<%= registration.id %>/edit">Bewerk</a>
+                <form method="post" action="/matches/<%= match.id %>/registrations/<%= registration.id %>?_method=DELETE" onsubmit="return confirm('Inschrijving verwijderen?');">
+                  <button class="btn btn-small btn-danger" type="submit">Verwijder</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
