@@ -1,0 +1,114 @@
+<%- include('../partials/header') %>
+
+<section class="page-header">
+  <h1>Loyalty punten</h1>
+  <p>Punten uit aanwezigheid (1/3/5 per wedstrijd) plus manuele correcties.</p>
+</section>
+
+<% if (message) { %>
+  <div class="alert <%= messageType === 'error' ? 'alert-error' : 'alert-success' %>"><%= message %></div>
+<% } %>
+
+<section class="card">
+  <h2>Totaal punten per lid</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Lid</th>
+          <th>Matchpunten</th>
+          <th>Correcties</th>
+          <th>Totaal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (totals.length === 0) { %>
+          <tr>
+            <td colspan="4">Nog geen data.</td>
+          </tr>
+        <% } %>
+        <% totals.forEach((row) => { %>
+          <tr>
+            <td><%= row.first_name %> <%= row.last_name %></td>
+            <td><%= row.match_points %></td>
+            <td><%= row.adjustment_points %></td>
+            <td><strong><%= row.total_points %></strong></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card form-card">
+  <h2>Manuele punten-correctie</h2>
+  <form method="post" action="/loyalty/adjustments">
+    <div class="form-grid">
+      <label>
+        Lid *
+        <select name="personId" required>
+          <option value="">Kies lid</option>
+          <% people.forEach((person) => { %>
+            <option value="<%= person.id %>"><%= person.first_name %> <%= person.last_name %></option>
+          <% }) %>
+        </select>
+      </label>
+      <label>
+        Wedstrijd (optioneel)
+        <select name="matchId">
+          <option value="">Geen wedstrijd</option>
+          <% matches.forEach((match) => { %>
+            <option value="<%= match.id %>"><%= match.opponent %> - <%= new Date(match.match_datetime).toLocaleDateString('nl-BE') %></option>
+          <% }) %>
+        </select>
+      </label>
+      <label>
+        Punten (+/-) *
+        <input type="number" name="points" step="1" required placeholder="bv. 3 of -1" />
+      </label>
+      <label class="span-2">
+        Omschrijving
+        <input type="text" name="note" placeholder="Waarom deze correctie?" />
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn" type="submit">Correctie opslaan</button>
+    </div>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Puntenhistoriek</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Lid</th>
+          <th>Type</th>
+          <th>Details</th>
+          <th>Punten</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (history.length === 0) { %>
+          <tr>
+            <td colspan="5">Nog geen historiek.</td>
+          </tr>
+        <% } %>
+        <% history.forEach((row) => { %>
+          <tr>
+            <td><%= new Date(row.happened_at).toLocaleString('nl-BE') %></td>
+            <td><%= row.first_name %> <%= row.last_name %></td>
+            <td><%= row.event_type %></td>
+            <td><%= row.event_label %></td>
+            <td><strong><%= row.points %></strong></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
