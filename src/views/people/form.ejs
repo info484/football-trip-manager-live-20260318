@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+
+<section class="page-header">
+  <h1><%= title %></h1>
+  <p>Vul de persoonsgegevens van het lid in.</p>
+</section>
+
+<% if (errors.length > 0) { %>
+  <div class="alert alert-error">
+    <% errors.forEach((error) => { %>
+      <p><%= error %></p>
+    <% }) %>
+  </div>
+<% } %>
+
+<section class="card form-card">
+  <form method="post" action="<%= formAction %>">
+    <div class="form-grid">
+      <label>
+        Voornaam *
+        <input type="text" name="firstName" value="<%= person.firstName || '' %>" required />
+      </label>
+      <label>
+        Achternaam *
+        <input type="text" name="lastName" value="<%= person.lastName || '' %>" required />
+      </label>
+      <label>
+        Telefoon
+        <input type="text" name="phone" value="<%= person.phone || '' %>" />
+      </label>
+      <label>
+        Email
+        <input type="email" name="email" value="<%= person.email || '' %>" />
+      </label>
+      <label>
+        Geboortedatum
+        <input type="date" name="birthDate" value="<%= person.birthDate || '' %>" />
+      </label>
+      <label>
+        Adres
+        <input type="text" name="address" value="<%= person.address || '' %>" />
+      </label>
+      <label class="span-2">
+        Opmerkingen
+        <textarea name="notes" rows="4"><%= person.notes || '' %></textarea>
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <a class="btn btn-secondary" href="/people">Annuleer</a>
+      <button class="btn" type="submit">Opslaan</button>
+    </div>
+  </form>
+</section>
+
+<%- include('../partials/footer') %>
