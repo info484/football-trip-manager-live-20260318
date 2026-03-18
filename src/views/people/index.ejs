@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+
+<section class="page-header page-header-with-action">
+  <div>
+    <h1>Leden</h1>
+    <p>Beheer persoonsgegevens van alle supporters.</p>
+  </div>
+  <a class="btn" href="/people/new">Nieuw lid</a>
+</section>
+
+<% if (message) { %>
+  <div class="alert <%= messageType === 'error' ? 'alert-error' : 'alert-success' %>"><%= message %></div>
+<% } %>
+
+<section class="card">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Naam</th>
+          <th>Telefoon</th>
+          <th>Email</th>
+          <th>Geboortedatum</th>
+          <th>Acties</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (people.length === 0) { %>
+          <tr>
+            <td colspan="5">Nog geen leden toegevoegd.</td>
+          </tr>
+        <% } %>
+        <% people.forEach((person) => { %>
+          <tr>
+            <td><strong><%= person.first_name %> <%= person.last_name %></strong></td>
+            <td><%= person.phone || '-' %></td>
+            <td><%= person.email || '-' %></td>
+            <td><%= person.birth_date ? new Date(person.birth_date).toLocaleDateString('nl-BE') : '-' %></td>
+            <td>
+              <div class="actions">
+                <a class="btn btn-small" href="/people/<%= person.id %>/edit">Bewerken</a>
+                <form method="post" action="/people/<%= person.id %>?_method=DELETE" onsubmit="return confirm('Lid verwijderen?');">
+                  <button class="btn btn-small btn-danger" type="submit">Verwijder</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
