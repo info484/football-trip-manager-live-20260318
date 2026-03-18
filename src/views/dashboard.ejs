@@ -1,0 +1,68 @@
+<%- include('partials/header') %>
+
+<section class="page-header">
+  <h1>Dashboard</h1>
+  <p>Overzicht van leden, wedstrijden en inschrijvingen.</p>
+</section>
+
+<% if (message) { %>
+  <div class="alert <%= messageType === 'error' ? 'alert-error' : 'alert-success' %>"><%= message %></div>
+<% } %>
+
+<section class="stats-grid">
+  <article class="card stat-card">
+    <h2><%= stats.members %></h2>
+    <p>Leden</p>
+  </article>
+  <article class="card stat-card">
+    <h2><%= stats.openMatches %></h2>
+    <p>Open wedstrijden</p>
+  </article>
+  <article class="card stat-card">
+    <h2><%= stats.registrations %></h2>
+    <p>Inschrijvingen</p>
+  </article>
+</section>
+
+<section class="card">
+  <div class="card-header">
+    <h2>Aankomende wedstrijden</h2>
+    <a class="btn" href="/matches/new">Nieuwe wedstrijd</a>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Tegenstander</th>
+          <th>Locatie</th>
+          <th>Punten</th>
+          <th>Aanwezig</th>
+          <th>Afwezig</th>
+          <th>Opbrengst</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (upcomingMatches.length === 0) { %>
+          <tr>
+            <td colspan="7">Nog geen wedstrijden.</td>
+          </tr>
+        <% } %>
+        <% upcomingMatches.forEach((match) => { %>
+          <tr>
+            <td><a href="/matches/<%= match.id %>"><%= new Date(match.match_datetime).toLocaleString('nl-BE') %></a></td>
+            <td><%= match.opponent %></td>
+            <td><%= match.location %></td>
+            <td><%= match.points_value %></td>
+            <td><%= match.present_count %></td>
+            <td><%= match.absent_count %></td>
+            <td>EUR <%= Number(match.total_amount).toFixed(2) %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
