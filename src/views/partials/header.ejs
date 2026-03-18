@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= title %> | Voetbal Wedstrijden App</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="/">Voetbal Wedstrijden</a>
+        <nav class="nav">
+          <a class="<%= path === '/' ? 'active' : '' %>" href="/">Dashboard</a>
+          <a class="<%= path.startsWith('/matches') ? 'active' : '' %>" href="/matches">Wedstrijden</a>
+          <a class="<%= path.startsWith('/people') ? 'active' : '' %>" href="/people">Leden</a>
+          <a class="<%= path.startsWith('/loyalty') ? 'active' : '' %>" href="/loyalty">Loyalty</a>
+        </nav>
+      </div>
+    </header>
+    <main class="container">
