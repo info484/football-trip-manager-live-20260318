@@ -1,0 +1,276 @@
+:root {
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #172034;
+  --muted: #667085;
+  --primary: #0f766e;
+  --primary-dark: #0b5d57;
+  --danger: #b42318;
+  --border: #d0d5dd;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: radial-gradient(circle at top right, #e6f4f1, var(--bg) 35%);
+  color: var(--text);
+}
+
+.container {
+  width: min(1200px, 92vw);
+  margin: 0 auto;
+}
+
+.topbar {
+  background: #0b1f3a;
+  color: #fff;
+  border-bottom: 3px solid var(--primary);
+}
+
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  gap: 1rem;
+}
+
+.brand {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.nav {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  color: #d0def8;
+  text-decoration: none;
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+}
+
+.nav a.active,
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+main.container {
+  padding: 1.4rem 0 2.5rem;
+}
+
+.page-header {
+  margin-bottom: 1rem;
+}
+
+.page-header h1 {
+  margin: 0;
+}
+
+.page-header p {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+}
+
+.page-header-with-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 20px rgba(2, 18, 58, 0.05);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.stat-card h2 {
+  margin: 0;
+  color: var(--primary-dark);
+}
+
+.stat-card p {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #edf2f7;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid #eceff3;
+  vertical-align: top;
+  font-size: 0.94rem;
+}
+
+tr:hover td {
+  background: #fafcff;
+}
+
+.btn {
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.55rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+}
+
+.btn-secondary {
+  background: #475467;
+}
+
+.btn-small {
+  padding: 0.36rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.btn-danger {
+  background: var(--danger);
+}
+
+.actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-block;
+  background: #e7f0ff;
+  color: #1d4ed8;
+  border: 1px solid #caddff;
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.8rem;
+}
+
+.form-card form,
+.inline-form {
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.span-2 {
+  grid-column: span 2;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.92rem;
+}
+
+input,
+select,
+textarea {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem 0.6rem;
+  font: inherit;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.form-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.alert {
+  border-radius: 10px;
+  padding: 0.75rem 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background: #ecfdf3;
+  color: #067647;
+  border: 1px solid #a6f4c5;
+}
+
+.alert-error {
+  background: #fef3f2;
+  color: #b42318;
+  border: 1px solid #fecdca;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 760px) {
+  .page-header-with-action {
+    flex-direction: column;
+  }
+
+  .span-2 {
+    grid-column: auto;
+  }
+}
