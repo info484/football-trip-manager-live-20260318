@@ -36,8 +36,8 @@ router.get(
       db.query(
         `
         SELECT
-          p.first_name,
-          p.last_name,
+          first_name,
+          last_name,
           event_type,
           event_label,
           points,
