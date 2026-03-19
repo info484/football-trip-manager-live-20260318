@@ -1,0 +1,63 @@
+<%- include('../partials/header') %>
+
+<section class="page-header">
+  <h1>Loyalty punten per wedstrijd</h1>
+  <p>Hier zie je per wedstrijd hoeveel loyalty punten worden toegekend (1, 3 of 5).</p>
+</section>
+
+<% if (message) { %>
+  <div class="alert <%= messageType === 'error' ? 'alert-error' : 'alert-success' %>"><%= message %></div>
+<% } %>
+
+<section class="stats-grid">
+  <article class="card stat-card">
+    <h2>1 punt</h2>
+    <p>Lage prioriteit wedstrijd</p>
+  </article>
+  <article class="card stat-card">
+    <h2>3 punten</h2>
+    <p>Standaard wedstrijd</p>
+  </article>
+  <article class="card stat-card">
+    <h2>5 punten</h2>
+    <p>Topwedstrijd</p>
+  </article>
+</section>
+
+<section class="card">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Wedstrijd</th>
+          <th>Locatie</th>
+          <th>Competitie</th>
+          <th>Punten</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (matches.length === 0) { %>
+          <tr>
+            <td colspan="6">Nog geen wedstrijden beschikbaar.</td>
+          </tr>
+        <% } %>
+        <% matches.forEach((match) => { %>
+          <tr>
+            <td><%= new Date(match.match_datetime).toLocaleString('nl-BE') %></td>
+            <td><%= match.opponent %></td>
+            <td><%= match.location %></td>
+            <td><%= match.match_type || '-' %></td>
+            <td>
+              <span class="badge"><strong><%= match.points_value %></strong> punten</span>
+            </td>
+            <td><span class="badge"><%= match.status %></span></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
