@@ -1,0 +1,82 @@
+<%- include('../partials/header') %>
+
+<section class="page-header">
+  <h1>Ledenoverzicht</h1>
+  <p>Bekijk per wedstrijd wie meegaat en zie de volledige loyalty-rangschikking.</p>
+</section>
+
+<% if (message) { %>
+  <div class="alert <%= messageType === 'error' ? 'alert-error' : 'alert-success' %>"><%= message %></div>
+<% } %>
+
+<section class="card">
+  <h2>Rangschikking loyalty punten</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Positie</th>
+          <th>Lid</th>
+          <th>Totaal punten</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (ranking.length === 0) { %>
+          <tr>
+            <td colspan="3">Nog geen leden in de rangschikking.</td>
+          </tr>
+        <% } %>
+        <% ranking.forEach((row, idx) => { %>
+          <tr>
+            <td><strong>#<%= idx + 1 %></strong></td>
+            <td><%= row.first_name %> <%= row.last_name %></td>
+            <td><%= row.total_points %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Wie gaat mee per wedstrijd (aanwezig)</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Wedstrijd</th>
+          <th>Locatie</th>
+          <th>Aanwezig</th>
+          <th>Deelnemers + plaats</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (matches.length === 0) { %>
+          <tr>
+            <td colspan="5">Nog geen wedstrijden beschikbaar.</td>
+          </tr>
+        <% } %>
+        <% matches.forEach((match) => { %>
+          <tr>
+            <td><%= new Date(match.match_datetime).toLocaleString('nl-BE') %></td>
+            <td><%= match.opponent %></td>
+            <td><%= match.location %></td>
+            <td><%= match.present_count %></td>
+            <td>
+              <% if (!match.participants || match.participants.length === 0) { %>
+                <span>-</span>
+              <% } else { %>
+                <% match.participants.forEach((person, index) => { %>
+                  <span><%= person.first_name %> <%= person.last_name %> (<%= person.seat_type %>)</span><%= index < match.participants.length - 1 ? ', ' : '' %>
+                <% }) %>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
