@@ -14,7 +14,9 @@
           <a class="<%= path === '/' ? 'active' : '' %>" href="/">Dashboard</a>
           <a class="<%= path.startsWith('/matches') ? 'active' : '' %>" href="/matches">Wedstrijden</a>
           <a class="<%= path.startsWith('/people') ? 'active' : '' %>" href="/people">Leden</a>
-          <a class="<%= path.startsWith('/loyalty') ? 'active' : '' %>" href="/loyalty">Loyalty</a>
+          <a class="<%= path === '/loyalty' ? 'active' : '' %>" href="/loyalty">Loyalty</a>
+          <a class="<%= path === '/loyalty/match-points' ? 'active' : '' %>" href="/loyalty/match-points">Punten per match</a>
+          <a class="<%= path === '/loyalty/member-overview' ? 'active' : '' %>" href="/loyalty/member-overview">Ledenoverzicht</a>
         </nav>
       </div>
     </header>
