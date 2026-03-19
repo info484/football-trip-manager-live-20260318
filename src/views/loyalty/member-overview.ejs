@@ -67,9 +67,11 @@
               <% if (!match.participants || match.participants.length === 0) { %>
                 <span>-</span>
               <% } else { %>
-                <% match.participants.forEach((person, index) => { %>
-                  <span><%= person.first_name %> <%= person.last_name %> (<%= person.seat_type %>)</span><%= index < match.participants.length - 1 ? ', ' : '' %>
-                <% }) %>
+                <div class="participant-list">
+                  <% match.participants.forEach((person) => { %>
+                    <span class="participant-chip"><%= person.first_name %> <%= person.last_name %> (<%= person.seat_type %>)</span>
+                  <% }) %>
+                </div>
               <% } %>
             </td>
           </tr>
