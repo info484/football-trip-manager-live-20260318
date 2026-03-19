@@ -86,6 +86,99 @@ router.get(
   })
 );
 
+router.get(
+  "/match-points",
+  asyncHandler(async (req, res) => {
+    const matchesResult = await db.query(
+      `
+      SELECT
+        id,
+        match_datetime,
+        opponent,
+        location,
+        match_type,
+        points_value,
+        status
+      FROM matches
+      ORDER BY match_datetime DESC
+      `
+    );
+
+    res.render("loyalty/match-points", {
+      title: "Loyalty punten per wedstrijd",
+      matches: matchesResult.rows,
+      message: req.query.message || null,
+      messageType: req.query.type || "success",
+    });
+  })
+);
+
+router.get(
+  "/member-overview",
+  asyncHandler(async (req, res) => {
+    const [rankingResult, matchOverviewResult] = await Promise.all([
+      db.query(
+        `
+        SELECT
+          p.id,
+          p.first_name,
+          p.last_name,
+          (COALESCE(mp.match_points, 0) + COALESCE(adj.adjustment_points, 0))::int AS total_points
+        FROM people p
+        LEFT JOIN (
+          SELECT r.person_id, SUM(CASE WHEN r.attendance = 'present' THEN m.points_value ELSE 0 END)::int AS match_points
+          FROM registrations r
+          INNER JOIN matches m ON m.id = r.match_id
+          GROUP BY r.person_id
+        ) mp ON mp.person_id = p.id
+        LEFT JOIN (
+          SELECT person_id, SUM(points)::int AS adjustment_points
+          FROM loyalty_adjustments
+          GROUP BY person_id
+        ) adj ON adj.person_id = p.id
+        ORDER BY total_points DESC, p.last_name ASC, p.first_name ASC
+        `
+      ),
+      db.query(
+        `
+        SELECT
+          m.id,
+          m.match_datetime,
+          m.opponent,
+          m.location,
+          m.status,
+          m.points_value,
+          COALESCE(
+            JSON_AGG(
+              JSON_BUILD_OBJECT(
+                'first_name', p.first_name,
+                'last_name', p.last_name,
+                'seat_type', r.seat_type
+              )
+              ORDER BY p.last_name, p.first_name
+            ) FILTER (WHERE r.id IS NOT NULL),
+            '[]'::json
+          ) AS participants,
+          COALESCE(COUNT(r.id), 0)::int AS present_count
+        FROM matches m
+        LEFT JOIN registrations r ON r.match_id = m.id AND r.attendance = 'present'
+        LEFT JOIN people p ON p.id = r.person_id
+        GROUP BY m.id
+        ORDER BY m.match_datetime DESC
+        `
+      ),
+    ]);
+
+    res.render("loyalty/member-overview", {
+      title: "Ledenoverzicht",
+      ranking: rankingResult.rows,
+      matches: matchOverviewResult.rows,
+      message: req.query.message || null,
+      messageType: req.query.type || "success",
+    });
+  })
+);
+
 router.post(
   "/adjustments",
   asyncHandler(async (req, res) => {
