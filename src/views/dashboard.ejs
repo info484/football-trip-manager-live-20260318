@@ -41,14 +41,12 @@
           <th>Locatie</th>
           <th>Punten</th>
           <th>Aanwezig</th>
-          <th>Afwezig</th>
-          <th>Opbrengst</th>
         </tr>
       </thead>
       <tbody>
         <% if (upcomingMatches.length === 0) { %>
           <tr>
-            <td colspan="7">Nog geen wedstrijden.</td>
+            <td colspan="5">Nog geen wedstrijden.</td>
           </tr>
         <% } %>
         <% upcomingMatches.forEach((match) => { %>
@@ -58,8 +56,35 @@
             <td><%= match.location %></td>
             <td><%= match.points_value %></td>
             <td><%= match.present_count %></td>
-            <td><%= match.absent_count %></td>
-            <td>EUR <%= Number(match.total_amount).toFixed(2) %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Top 10 loyalty leden</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Positie</th>
+          <th>Lid</th>
+          <th>Punten</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (topLoyalty.length === 0) { %>
+          <tr>
+            <td colspan="3">Nog geen loyalty data.</td>
+          </tr>
+        <% } %>
+        <% topLoyalty.forEach((member, index) => { %>
+          <tr>
+            <td><strong>#<%= index + 1 %></strong></td>
+            <td><%= member.first_name %> <%= member.last_name %></td>
+            <td><%= member.total_points %></td>
           </tr>
         <% }) %>
       </tbody>
