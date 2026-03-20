@@ -5,7 +5,9 @@
     <h1>Wedstrijden</h1>
     <p>Beheer alle wedstrijden en puntenwaarden.</p>
   </div>
-  <a class="btn" href="/matches/new">Nieuwe wedstrijd</a>
+  <% if (isDeveloper) { %>
+    <a class="btn" href="/matches/new">Nieuwe wedstrijd</a>
+  <% } %>
 </section>
 
 <% if (message) { %>
@@ -35,13 +37,15 @@
           <th>Prijzen</th>
           <th>Status</th>
           <th>Inschr.</th>
-          <th>Acties</th>
+          <% if (isDeveloper) { %>
+            <th>Acties</th>
+          <% } %>
         </tr>
       </thead>
       <tbody>
         <% if (matches.length === 0) { %>
           <tr>
-            <td colspan="8">Nog geen wedstrijden.</td>
+            <td colspan="<%= isDeveloper ? 8 : 7 %>">Nog geen wedstrijden.</td>
           </tr>
         <% } %>
         <% matches.forEach((match) => { %>
@@ -53,14 +57,16 @@
             <td>Bus EUR <%= Number(match.bus_price).toFixed(2) %> / All-in EUR <%= Number(match.all_in_price).toFixed(2) %></td>
             <td><span class="badge"><%= match.status %></span></td>
             <td><%= match.registrations %></td>
-            <td>
-              <div class="actions">
-                <a class="btn btn-small" href="/matches/<%= match.id %>/edit">Bewerk</a>
-                <form method="post" action="/matches/<%= match.id %>?_method=DELETE" onsubmit="return confirm('Wedstrijd verwijderen?');">
-                  <button class="btn btn-small btn-danger" type="submit">Verwijder</button>
-                </form>
-              </div>
-            </td>
+            <% if (isDeveloper) { %>
+              <td>
+                <div class="actions">
+                  <a class="btn btn-small" href="/matches/<%= match.id %>/edit">Bewerk</a>
+                  <form method="post" action="/matches/<%= match.id %>?_method=DELETE" onsubmit="return confirm('Wedstrijd verwijderen?');">
+                    <button class="btn btn-small btn-danger" type="submit">Verwijder</button>
+                  </form>
+                </div>
+              </td>
+            <% } %>
           </tr>
         <% }) %>
       </tbody>
