@@ -27,7 +27,9 @@
 <section class="card">
   <div class="card-header">
     <h2>Aankomende wedstrijden</h2>
-    <a class="btn" href="/matches/new">Nieuwe wedstrijd</a>
+    <% if (isDeveloper) { %>
+      <a class="btn" href="/matches/new">Nieuwe wedstrijd</a>
+    <% } %>
   </div>
 
   <div class="table-wrap">
