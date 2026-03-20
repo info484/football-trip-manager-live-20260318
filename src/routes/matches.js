@@ -13,6 +13,17 @@ const paymentStatusOptions = ["open", "paid", "partial"];
 const packageOptions = ["all_in", "bus_only"];
 const matchStatusOptions = ["open", "closed"];
 
+function requireDeveloperMode(req, res, next) {
+  if (req.appMode === "developer") {
+    return next();
+  }
+
+  return res.status(403).render("partials/error", {
+    title: "Geen toegang",
+    message: "Deze beheeractie is alleen beschikbaar in de ontwikkelaarsomgeving.",
+  });
+}
+
 function parseMatchInput(body) {
   return {
     matchDatetime: body.matchDatetime,
@@ -201,7 +212,7 @@ router.get(
   })
 );
 
-router.get("/new", (req, res) => {
+router.get("/new", requireDeveloperMode, (req, res) => {
   res.render("matches/form", {
     title: "Nieuwe wedstrijd",
     match: {
@@ -219,6 +230,7 @@ router.get("/new", (req, res) => {
 
 router.post(
   "/",
+  requireDeveloperMode,
   asyncHandler(async (req, res) => {
     const matchInput = parseMatchInput(req.body);
     const errors = validateMatchInput(matchInput);
@@ -279,6 +291,7 @@ router.get(
 
 router.get(
   "/:id/edit",
+  requireDeveloperMode,
   asyncHandler(async (req, res) => {
     const match = await getMatchById(req.params.id);
 
@@ -309,6 +322,7 @@ router.get(
 
 router.put(
   "/:id",
+  requireDeveloperMode,
   asyncHandler(async (req, res) => {
     const matchInput = parseMatchInput(req.body);
     const errors = validateMatchInput(matchInput);
@@ -359,6 +373,7 @@ router.put(
 
 router.delete(
   "/:id",
+  requireDeveloperMode,
   asyncHandler(async (req, res) => {
     await db.query("DELETE FROM matches WHERE id = $1", [req.params.id]);
     return res.redirect("/matches?type=success&message=Wedstrijd%20verwijderd");
@@ -367,6 +382,7 @@ router.delete(
 
 router.get(
   "/:id/registrations/new",
+  requireDeveloperMode,
   asyncHandler(async (req, res) => {
     const [match, people] = await Promise.all([getMatchById(req.params.id), getPeople()]);
 
@@ -399,6 +415,7 @@ router.get(
 
 router.post(
   "/:id/registrations",
+  requireDeveloperMode,
   asyncHandler(async (req, res) => {
     const [match, people] = await Promise.all([getMatchById(req.params.id), getPeople()]);
 
@@ -479,6 +496,7 @@ router.post(
 
 router.get(
   "/:id/registrations/:registrationId/edit",
+  requireDeveloperMode,
   asyncHandler(async (req, res) => {
     const [match, people, registrationResult] = await Promise.all([
       getMatchById(req.params.id),
@@ -521,6 +539,7 @@ router.get(
 
 router.put(
   "/:id/registrations/:registrationId",
+  requireDeveloperMode,
   asyncHandler(async (req, res) => {
     const [match, people] = await Promise.all([getMatchById(req.params.id), getPeople()]);
 
@@ -593,6 +612,7 @@ router.put(
 
 router.delete(
   "/:id/registrations/:registrationId",
+  requireDeveloperMode,
   asyncHandler(async (req, res) => {
     await db.query("DELETE FROM registrations WHERE id = $1 AND match_id = $2", [
       req.params.registrationId,
