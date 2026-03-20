@@ -95,8 +95,6 @@ router.get(
         id,
         match_datetime,
         opponent,
-        location,
-        match_type,
         points_value,
         status
       FROM matches
