@@ -65,6 +65,33 @@ body {
   color: #fff;
 }
 
+.mode-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.mode-label {
+  font-size: 0.8rem;
+  color: #c8d7f5;
+}
+
+.mode-link {
+  color: #cfe2ff;
+  text-decoration: none;
+  font-size: 0.78rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+}
+
+.mode-link.active {
+  background: #ffffff;
+  color: #0b1f3a;
+  border-color: #ffffff;
+}
+
 main.container {
   padding: 1.4rem 0 2.5rem;
 }
@@ -297,6 +324,10 @@ textarea {
 
   .nav a {
     white-space: nowrap;
+  }
+
+  .mode-switch {
+    width: 100%;
   }
 }
 
