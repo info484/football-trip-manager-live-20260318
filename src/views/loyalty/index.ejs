@@ -40,43 +40,45 @@
   </div>
 </section>
 
-<section class="card form-card">
-  <h2>Manuele punten-correctie</h2>
-  <form method="post" action="/loyalty/adjustments">
-    <div class="form-grid">
-      <label>
-        Lid *
-        <select name="personId" required>
-          <option value="">Kies lid</option>
-          <% people.forEach((person) => { %>
-            <option value="<%= person.id %>"><%= person.first_name %> <%= person.last_name %></option>
-          <% }) %>
-        </select>
-      </label>
-      <label>
-        Wedstrijd (optioneel)
-        <select name="matchId">
-          <option value="">Geen wedstrijd</option>
-          <% matches.forEach((match) => { %>
-            <option value="<%= match.id %>"><%= match.opponent %> - <%= new Date(match.match_datetime).toLocaleDateString('nl-BE') %></option>
-          <% }) %>
-        </select>
-      </label>
-      <label>
-        Punten (+/-) *
-        <input type="number" name="points" step="1" required placeholder="bv. 3 of -1" />
-      </label>
-      <label class="span-2">
-        Omschrijving
-        <input type="text" name="note" placeholder="Waarom deze correctie?" />
-      </label>
-    </div>
+<% if (isDeveloper) { %>
+  <section class="card form-card">
+    <h2>Manuele punten-correctie</h2>
+    <form method="post" action="/loyalty/adjustments">
+      <div class="form-grid">
+        <label>
+          Lid *
+          <select name="personId" required>
+            <option value="">Kies lid</option>
+            <% people.forEach((person) => { %>
+              <option value="<%= person.id %>"><%= person.first_name %> <%= person.last_name %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label>
+          Wedstrijd (optioneel)
+          <select name="matchId">
+            <option value="">Geen wedstrijd</option>
+            <% matches.forEach((match) => { %>
+              <option value="<%= match.id %>"><%= match.opponent %> - <%= new Date(match.match_datetime).toLocaleDateString('nl-BE') %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label>
+          Punten (+/-) *
+          <input type="number" name="points" step="1" required placeholder="bv. 3 of -1" />
+        </label>
+        <label class="span-2">
+          Omschrijving
+          <input type="text" name="note" placeholder="Waarom deze correctie?" />
+        </label>
+      </div>
 
-    <div class="form-actions">
-      <button class="btn" type="submit">Correctie opslaan</button>
-    </div>
-  </form>
-</section>
+      <div class="form-actions">
+        <button class="btn" type="submit">Correctie opslaan</button>
+      </div>
+    </form>
+  </section>
+<% } %>
 
 <section class="card">
   <h2>Puntenhistoriek</h2>
