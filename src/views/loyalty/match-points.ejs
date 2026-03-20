@@ -31,8 +31,6 @@
         <tr>
           <th>Datum</th>
           <th>Wedstrijd</th>
-          <th>Locatie</th>
-          <th>Competitie</th>
           <th>Punten</th>
           <th>Status</th>
         </tr>
@@ -40,15 +38,13 @@
       <tbody>
         <% if (matches.length === 0) { %>
           <tr>
-            <td colspan="6">Nog geen wedstrijden beschikbaar.</td>
+            <td colspan="4">Nog geen wedstrijden beschikbaar.</td>
           </tr>
         <% } %>
         <% matches.forEach((match) => { %>
           <tr>
             <td><%= new Date(match.match_datetime).toLocaleString('nl-BE') %></td>
             <td><%= match.opponent %></td>
-            <td><%= match.location %></td>
-            <td><%= match.match_type || '-' %></td>
             <td>
               <span class="badge"><strong><%= match.points_value %></strong> punten</span>
             </td>
