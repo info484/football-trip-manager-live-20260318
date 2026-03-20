@@ -5,7 +5,9 @@
     <h1><%= match.opponent %></h1>
     <p><%= new Date(match.match_datetime).toLocaleString('nl-BE') %> | <%= match.location %> | <strong><%= match.points_value %> punten</strong></p>
   </div>
-  <a class="btn" href="/matches/<%= match.id %>/registrations/new">Inschrijving toevoegen</a>
+  <% if (isDeveloper) { %>
+    <a class="btn" href="/matches/<%= match.id %>/registrations/new">Inschrijving toevoegen</a>
+  <% } %>
 </section>
 
 <% if (message) { %>
@@ -44,13 +46,15 @@
           <th>Betaling</th>
           <th>Status</th>
           <th>Bedrag</th>
-          <th>Acties</th>
+          <% if (isDeveloper) { %>
+            <th>Acties</th>
+          <% } %>
         </tr>
       </thead>
       <tbody>
         <% if (registrations.length === 0) { %>
           <tr>
-            <td colspan="8">Nog geen inschrijvingen.</td>
+            <td colspan="<%= isDeveloper ? 8 : 7 %>">Nog geen inschrijvingen.</td>
           </tr>
         <% } %>
         <% registrations.forEach((registration) => { %>
@@ -62,14 +66,16 @@
             <td><%= registration.payment_method %></td>
             <td><%= registration.payment_status %></td>
             <td>EUR <%= Number(registration.amount).toFixed(2) %></td>
-            <td>
-              <div class="actions">
-                <a class="btn btn-small" href="/matches/<%= match.id %>/registrations/<%= registration.id %>/edit">Bewerk</a>
-                <form method="post" action="/matches/<%= match.id %>/registrations/<%= registration.id %>?_method=DELETE" onsubmit="return confirm('Inschrijving verwijderen?');">
-                  <button class="btn btn-small btn-danger" type="submit">Verwijder</button>
-                </form>
-              </div>
-            </td>
+            <% if (isDeveloper) { %>
+              <td>
+                <div class="actions">
+                  <a class="btn btn-small" href="/matches/<%= match.id %>/registrations/<%= registration.id %>/edit">Bewerk</a>
+                  <form method="post" action="/matches/<%= match.id %>/registrations/<%= registration.id %>?_method=DELETE" onsubmit="return confirm('Inschrijving verwijderen?');">
+                    <button class="btn btn-small btn-danger" type="submit">Verwijder</button>
+                  </form>
+                </div>
+              </td>
+            <% } %>
           </tr>
         <% }) %>
       </tbody>
