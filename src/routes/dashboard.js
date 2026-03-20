@@ -26,6 +26,7 @@ router.get(
             COALESCE(SUM(r.amount), 0)::numeric(10,2) AS total_amount
           FROM matches m
           LEFT JOIN registrations r ON r.match_id = m.id
+          WHERE m.match_datetime >= NOW()
           GROUP BY m.id
           ORDER BY m.match_datetime ASC
           LIMIT 12
