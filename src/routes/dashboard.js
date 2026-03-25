@@ -29,7 +29,7 @@ router.get(
           WHERE m.match_datetime >= NOW()
           GROUP BY m.id
           ORDER BY m.match_datetime ASC
-          LIMIT 12
+          LIMIT 1
         `
       ),
       db.query(
